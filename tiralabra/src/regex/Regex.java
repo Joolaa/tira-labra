@@ -17,18 +17,21 @@ public class Regex {
         int point = 0;
         State curState = new State();
         initState = curState;
+        State prevState = curState;
         
         while(point < stringRep.length()) {
             switch(stringRep.charAt(point)) {
                 case '*':
                     curState.addTransition(stringRep.charAt(point - 1),
                             curState);
+                    prevState.setIsFinal(true);
                     break;
                     
                 default:
                     State nextState = new State();
                     curState.addTransition(stringRep.charAt(point),
                             nextState);
+                    prevState = curState;
                     curState = nextState;
                     break; 
             }

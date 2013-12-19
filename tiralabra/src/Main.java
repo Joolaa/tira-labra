@@ -8,6 +8,7 @@ public class Main {
         
         System.out.println(r.evalString("abccc"));
         System.out.println(r.evalString("ab"));
+        System.out.println(r.evalString("ac"));
     }
     
 }
