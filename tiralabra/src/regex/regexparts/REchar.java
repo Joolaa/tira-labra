@@ -16,6 +16,7 @@ public class REchar implements REsubexpAtom {
         return null;
     }
     
+    @Override
     public boolean matches(char c) {
         if(c == matchingChar)
             return true;

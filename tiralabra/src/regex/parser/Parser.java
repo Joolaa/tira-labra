@@ -6,6 +6,15 @@ public class Parser {
     
     public Parser(){}
     
+    /**
+     * Parses the given string representing a regex to a parse tree
+     * consisting of REsubexps. Minimal effort to check whether
+     * the given string is a valid regex.
+     * 
+     * @param s string representation of regex
+     * @return parse tree of REsubexps
+     */
+    
     public REsubexp parseString(String s) {
         
         if(s.charAt(0) == '(' && s.charAt(s.length() - 1) == ')')

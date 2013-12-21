@@ -12,6 +12,12 @@ public class ParserTest {
     Parser par;
     REsubexp re;
     REsubexp restar;
+    REsubexp resingstar;
+    REsubexp resing;
+    REsubexp reunion;
+    REsubexp reparen;
+    REsubexp refirstparen;
+    REsubexp rehard1;
     
     @Before
     public void setUp() {
@@ -19,6 +25,12 @@ public class ParserTest {
         par = new Parser();
         re = par.parseString("ab");
         restar = par.parseString("a*b");
+        resingstar = par.parseString("a*");
+        resing = par.parseString("a");
+        reunion = par.parseString("a|bc");
+        reparen = par.parseString("a(bc)");
+        refirstparen = par.parseString("(ab)c");
+        rehard1 = par.parseString("((ab)*|(cd)|ef)|g(h(ij)*)*k");
         
     }
     
@@ -49,6 +61,55 @@ public class ParserTest {
     public void testStar2() {
         REconcat cat = (REconcat) restar;
         REchar ch = (REchar) cat.getRight();
+        assertTrue(ch.matches('b'));
+    }
+    
+    @Test
+    public void testSingularStar() {
+        REstar sta = (REstar) resingstar;
+        REchar ch = (REchar) sta.getLeft();
+        assertTrue(ch.matches('a'));
+        assertTrue(resingstar.getClass().equals(REstar.class));
+    }
+    
+    @Test
+    public void testSingleChar() {
+        assertTrue(resing.getClass().equals(REchar.class));
+        REchar ch = (REchar) resing;
+        assertTrue(ch.matches('a'));
+    }
+    
+    @Test
+    public void testUnion() {
+        assertTrue(reunion.getClass().equals(REunion.class));
+        REunion reu = (REunion) reunion;
+        REchar ch1 = (REchar) reu.getLeft();
+        assertTrue(reu.getRight().getClass().equals(REconcat.class));
+        REconcat cat = (REconcat) reu.getRight();
+        REchar ch2 = (REchar) cat.getLeft();
+        REchar ch3 = (REchar) cat.getRight();
+        
+        assertTrue(ch1.matches('a'));
+        assertTrue(ch2.matches('b'));
+        assertTrue(ch3.matches('c'));
+    }
+    
+    @Test
+    public void testParen() {
+        assertTrue(reparen.getClass().equals(REconcat.class));
+        REconcat cat = (REconcat) reparen;
+        assertTrue(cat.getLeft().getClass().equals(REchar.class));
+        assertTrue(cat.getRight().getClass().equals(REconcat.class));
+    }
+    
+    @Test
+    public void testParenFirst() {
+        assertTrue(refirstparen.getClass().equals(REconcat.class));
+        REconcat cat1 = (REconcat) refirstparen;
+        assertTrue(cat1.getLeft().getClass().equals(REconcat.class));
+        REconcat cat2 = (REconcat) cat1.getLeft();
+        
+        REchar ch = (REchar) cat2.getRight();
         assertTrue(ch.matches('b'));
     }
     

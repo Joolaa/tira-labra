@@ -14,10 +14,12 @@ public class REconcat implements REsubexpBinary {
         this.right = right;
     }
     
+    @Override
     public REsubexp getLeft() {
         return left;
     }
     
+    @Override
     public REsubexp getRight() {
         return right;
     }
