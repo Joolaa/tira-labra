@@ -7,6 +7,30 @@ public class Parser {
     
     public Parser(){}
     
+    public REsubexp parseString(String s) {
+        
+        if(s.charAt(0) == '(' && s.charAt(s.length() - 1) == ')')
+            return parseString(removeParens(s));
+        
+        String[] split = splitRegex(s);
+        
+        if(split[1].isEmpty()) {
+            if(split[0].charAt(split[0].length() - 1) == '*') {
+                return new REstar(parseString(splitRegex(split[0])[0]));
+            } else {
+                return new REchar(split[0].charAt(0));
+            }
+        } else {
+            if(split[1].charAt(0) == '|') {
+                return new REunion(parseString(split[0]), 
+                        parseString(splitRegex(split[1])[1]));
+            } else {
+                return new REconcat(parseString(split[0]), 
+                        parseString(split[1]));
+            }
+        }
+    }
+    
     private String[] splitRegex(String splittee) {
 
         String[] arr = new String[2];
