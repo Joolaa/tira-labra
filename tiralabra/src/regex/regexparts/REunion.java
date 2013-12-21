@@ -1,13 +1,15 @@
 
-package regex;
+package regex.regexparts;
+
+import regex.*;
 
 
-public class REconcat implements REsubexpBinary {
+public class REunion implements REsubexpBinary{
     
     private REsubexp left;
     private REsubexp right;
     
-    public REconcat(REsubexp left, REsubexp right) {
+    public REunion(REsubexp left, REsubexp right) {
         this.left = left;
         this.right = right;
     }

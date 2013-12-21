@@ -1,5 +1,7 @@
 
-package regex;
+package regex.regexparts;
+
+import regex.*;
 
 
 public class REstar implements REsubexp{

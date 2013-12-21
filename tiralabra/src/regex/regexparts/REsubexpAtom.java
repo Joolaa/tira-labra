@@ -1,4 +1,6 @@
-package regex;
+package regex.regexparts;
+
+import regex.*;
 
 
 public interface REsubexpAtom extends REsubexp{
