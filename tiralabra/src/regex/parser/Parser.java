@@ -1,4 +1,3 @@
-
 package regex.parser;
 
 import regex.regexparts.*;
@@ -50,7 +49,7 @@ public class Parser {
             arr[1] = splittee.substring(splitpoint);
         }
         
-        if(arr[1].charAt(0) == '*') {
+        if(!arr[1].isEmpty() && arr[1].charAt(0) == '*') {
             String[] helper = splitRegex(arr[1]);
             
             arr[0] = arr[0] + helper[0];
