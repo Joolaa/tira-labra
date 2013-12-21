@@ -11,12 +11,15 @@ public class ParserTest {
     
     Parser par;
     REsubexp re;
+    REsubexp restar;
     
     @Before
     public void setUp() {
         
         par = new Parser();
         re = par.parseString("ab");
+        restar = par.parseString("a*b");
+        
     }
     
     @Test
@@ -33,6 +36,20 @@ public class ParserTest {
         REchar ch = (REchar) cat.getRight();
         assertTrue(ch.matches('b'));
         assertTrue(!ch.matches('a'));
+    }
+    
+    @Test
+    public void testStar1() {
+        REstar star = (REstar) restar.getLeft();
+        REchar ch = (REchar) star.getLeft();
+        assertTrue(ch.matches('a'));
+    }
+    
+    @Test
+    public void testStar2() {
+        REconcat cat = (REconcat) restar;
+        REchar ch = (REchar) cat.getRight();
+        assertTrue(ch.matches('b'));
     }
     
 }

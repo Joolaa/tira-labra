@@ -15,7 +15,8 @@ public class Parser {
         
         if(split[1].isEmpty()) {
             if(split[0].charAt(split[0].length() - 1) == '*') {
-                return new REstar(parseString(splitRegex(split[0])[0]));
+                return new REstar(parseString
+                        (split[0].substring(0, split[0].length() - 1)));
             } else {
                 return new REchar(split[0].charAt(0));
             }
