@@ -65,7 +65,7 @@ public class Parser {
             arr[0] = arr[0] + helper[0];
             arr[1] = helper[1];
         }
-
+        
         return arr;
     }
     
@@ -93,7 +93,7 @@ public class Parser {
         int parencount = 1;
         int result = 0;
         
-        for(int i = 1; i < s.length(); i++) {
+        for(int i = 1; i < s.length(); i++) {          
             if(s.charAt(i) == '(')
                 parencount++;
             else if(s.charAt(i) == ')')

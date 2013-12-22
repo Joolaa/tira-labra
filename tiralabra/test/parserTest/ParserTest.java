@@ -18,6 +18,7 @@ public class ParserTest {
     REsubexp reparen;
     REsubexp refirstparen;
     REsubexp rehard1;
+    REsubexp reunion2;
     
     @Before
     public void setUp() {
@@ -28,6 +29,7 @@ public class ParserTest {
         resingstar = par.parseString("a*");
         resing = par.parseString("a");
         reunion = par.parseString("a|bc");
+        reunion2 = par.parseString("a|b|c");
         reparen = par.parseString("a(bc)");
         refirstparen = par.parseString("(ab)c");
         rehard1 = par.parseString("((ab)*|(cd)|ef)|g(h(ij)*)*k");
@@ -92,6 +94,11 @@ public class ParserTest {
         assertTrue(ch1.matches('a'));
         assertTrue(ch2.matches('b'));
         assertTrue(ch3.matches('c'));
+    }
+    
+    @Test
+    public void testUnion2() {
+        assertTrue(reunion2.getClass().equals(REunion.class));
     }
     
     @Test
