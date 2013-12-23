@@ -23,4 +23,9 @@ public class REchar implements REsubexpAtom {
         return false;
     }
     
+    @Override
+    public boolean matchesEmpty() {
+        return false;
+    }
+    
 }

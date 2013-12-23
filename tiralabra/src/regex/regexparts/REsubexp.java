@@ -10,4 +10,10 @@ public interface REsubexp {
      */
     public REsubexp getLeft();
     
+    /**
+     * Returns true if the expression matches empty string
+     * @return True if matches empty, false otherwise
+     */
+    public boolean matchesEmpty();
+    
 }

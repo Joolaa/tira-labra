@@ -24,4 +24,9 @@ public class REunion implements REsubexpBinary{
         return right;
     }
     
+    @Override
+    public boolean matchesEmpty() {
+        return getLeft().matchesEmpty() || getRight().matchesEmpty();
+    }
+    
 }

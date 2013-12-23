@@ -17,4 +17,9 @@ public class REstar implements REsubexp{
         return left;
     }
     
+    @Override
+    public boolean matchesEmpty() {
+        return true;
+    }
+    
 }
