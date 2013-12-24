@@ -38,7 +38,7 @@ public class MatchesEmptyTest {
     
     @Test
     public void testEpsilon() {
-        REsubexpEpsilon eps = new REsubexpEpsilon();
+        REepsilon eps = new REepsilon();
         assertTrue(eps.matchesEmpty());
     }
     

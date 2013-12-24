@@ -1,8 +1,8 @@
 package regex.regexparts;
 
-public class REsubexpEpsilon implements REsubexpAtom{
+public class REepsilon implements REsubexpAtom{
     
-    public REsubexpEpsilon(){}
+    public REepsilon(){}
     
     @Override
     public REsubexp getLeft() {
@@ -17,6 +17,11 @@ public class REsubexpEpsilon implements REsubexpAtom{
     @Override
     public boolean matchesEmpty() {
         return true;
+    }
+    
+    @Override
+    public REsubexp derivative(char c) {
+        return new REnull();
     }
     
 }

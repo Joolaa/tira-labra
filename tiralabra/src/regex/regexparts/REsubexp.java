@@ -16,4 +16,12 @@ public interface REsubexp {
      */
     public boolean matchesEmpty();
     
+    /**
+     * Computes the Brzozowski derivative of the regex with
+     * respect to character c
+     * @param c the character for which derivative is computed with respect to
+     * @return derivative of the regex
+     */
+    public REsubexp derivative(char c);
+    
 }

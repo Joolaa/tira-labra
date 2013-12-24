@@ -22,4 +22,9 @@ public class REstar implements REsubexp{
         return true;
     }
     
+    @Override
+    public REsubexp derivative(char c) {
+        return new REconcat(getLeft().derivative(c), this);
+    }
+    
 }

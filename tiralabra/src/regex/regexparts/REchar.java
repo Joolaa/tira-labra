@@ -28,4 +28,11 @@ public class REchar implements REsubexpAtom {
         return false;
     }
     
+    @Override
+    public REsubexp derivative(char c) {
+        if(matches(c))
+            return new REepsilon();
+        return new REnull();
+    }
+    
 }

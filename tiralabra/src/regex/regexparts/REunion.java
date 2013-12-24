@@ -29,4 +29,9 @@ public class REunion implements REsubexpBinary{
         return getLeft().matchesEmpty() || getRight().matchesEmpty();
     }
     
+    @Override
+    public REsubexp derivative(char c) {
+        return new REunion(getLeft().derivative(c), getRight().derivative(c));
+    }
+    
 }

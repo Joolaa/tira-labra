@@ -1,9 +1,9 @@
 package regex.regexparts;
 
 
-public class REsubexpNull implements REsubexpAtom{
+public class REnull implements REsubexpAtom{
     
-    public REsubexpNull(){}
+    public REnull(){}
     
     @Override
     public boolean matches(char c) {
@@ -20,4 +20,8 @@ public class REsubexpNull implements REsubexpAtom{
         return false;
     }
     
+    @Override
+    public REsubexp derivative(char c) {
+        return new REnull();
+    }
 }

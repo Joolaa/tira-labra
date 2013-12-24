@@ -29,4 +29,12 @@ public class REconcat implements REsubexpBinary {
         return getLeft().matchesEmpty() && getRight().matchesEmpty();
     }
     
+    @Override
+    public REsubexp derivative(char c) {
+        if(getLeft().matchesEmpty())
+            return new REunion(new REconcat(getLeft().derivative(c),
+                    getRight()), getRight().derivative(c));
+        return new REconcat(getLeft().derivative(c), getRight());
+    }
+    
 }
