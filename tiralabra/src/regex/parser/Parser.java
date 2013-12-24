@@ -15,10 +15,12 @@ public class Parser {
      * @return parse tree of REsubexps
      */
     
-    public REsubexp parseString(String s) {
+    public REsubexp parseString(String st) {
+        
+        String s = st;
         
         if(s.charAt(0) == '(' && s.charAt(s.length() - 1) == ')')
-            return parseString(removeParens(s));
+            s = removeParens(s);
         
         String[] split = splitRegex(s);
         
@@ -73,8 +75,26 @@ public class Parser {
             return s;
         else if(s.length() <= 2)
             return "";
-        else
+        else {
+            boolean test = true;
+            int parencount = 0;
+            
+            for(int i = 0; i < s.length(); i++) {
+                if(s.charAt(i) == '(')
+                    parencount++;
+                else if(s.charAt(i) == ')')
+                    parencount--;
+                
+                if(parencount == 0 && i < s.length() - 1) {
+                    test = false;
+                    break;
+                }
+            }
+            if(!test)
+                return s;
             return s.substring(1, s.length() - 1);
+        }
+            
     }
     
     private int indexOfTail(String s) {
