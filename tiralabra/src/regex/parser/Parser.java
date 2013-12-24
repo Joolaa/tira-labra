@@ -50,9 +50,6 @@ public class Parser {
         } else if (splittee.length() == 1) {
             arr[0] = splittee;
             arr[1] = "";
-        } else if (splittee.charAt(0) != '(') {
-            arr[0] = Character.toString(splittee.charAt(0));
-            arr[1] = splittee.substring(1);
         } else {
             int splitpoint = indexOfTail(splittee);
             arr[0] = splittee.substring(0, splitpoint);
@@ -82,30 +79,44 @@ public class Parser {
     
     private int indexOfTail(String s) {
         
+        int unionind = indexOfUnion(s);
+        
         if(s.isEmpty() || s.length() == 1) {
             return 0;
-        } else if (s.charAt(s.length() - 1) == ')') {
-            return 0;
-        } else if(s.charAt(0) != '(') {
-            return 1;
+        } else if(unionind != 0) {
+            return unionind;
         }
         
-        int parencount = 1;
-        int result = 0;
+        int parencount = 0;
         
-        for(int i = 1; i < s.length(); i++) {          
+        for(int i = 0; i < s.length(); i++) {          
             if(s.charAt(i) == '(')
                 parencount++;
             else if(s.charAt(i) == ')')
                 parencount--;
             
             if(parencount == 0) {
-                result = i + 1;
-                break;
+                return i + 1;
             }
         }
         
-        return result;
+        return 0;
+    }
+    
+    private int indexOfUnion(String s) {
+        
+        int parencount = 0;
+        
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '(')
+                parencount++;
+            else if(s.charAt(i) == ')')
+                parencount--;
+            else if(s.charAt(i) == '|' && parencount == 0)
+                return i;
+        }
+        
+        return 0;
     }
     
 }

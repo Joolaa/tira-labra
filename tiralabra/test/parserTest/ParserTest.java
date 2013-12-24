@@ -28,7 +28,7 @@ public class ParserTest {
         restar = par.parseString("a*b");
         resingstar = par.parseString("a*");
         resing = par.parseString("a");
-        reunion = par.parseString("a|bc");
+        reunion = par.parseString("ab|cd");
         reunion2 = par.parseString("a|b|c");
         reparen = par.parseString("a(bc)");
         refirstparen = par.parseString("(ab)c");
@@ -85,15 +85,14 @@ public class ParserTest {
     public void testUnion() {
         assertTrue(reunion.getClass().equals(REunion.class));
         REunion reu = (REunion) reunion;
-        REchar ch1 = (REchar) reu.getLeft();
+        REconcat cat1 = (REconcat) reu.getLeft();
         assertTrue(reu.getRight().getClass().equals(REconcat.class));
-        REconcat cat = (REconcat) reu.getRight();
-        REchar ch2 = (REchar) cat.getLeft();
-        REchar ch3 = (REchar) cat.getRight();
+        REconcat cat2 = (REconcat) reu.getRight();
+        REchar ch1 = (REchar) cat1.getLeft();
+        REchar ch2 = (REchar) cat2.getRight();
         
         assertTrue(ch1.matches('a'));
-        assertTrue(ch2.matches('b'));
-        assertTrue(ch3.matches('c'));
+        assertTrue(ch2.matches('d'));
     }
     
     @Test
@@ -118,6 +117,19 @@ public class ParserTest {
         
         REchar ch = (REchar) cat2.getRight();
         assertTrue(ch.matches('b'));
+    }
+    
+    @Test
+    public void testHard1() {
+        assertTrue(rehard1.getClass().equals(REunion.class));
+        REunion uni1 = (REunion) rehard1;
+        
+        assertTrue(uni1.getLeft().getClass().equals(REunion.class));
+        REunion uni2 = (REunion) uni1.getLeft();
+        assertTrue(uni2.getLeft().getClass().equals(REstar.class));
+        assertTrue(uni2.getRight().getClass().equals(REunion.class));
+        
+        assertTrue(uni1.getRight().getClass().equals(REconcat.class));
     }
     
 }
