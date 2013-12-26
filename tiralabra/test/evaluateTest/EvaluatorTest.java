@@ -56,7 +56,6 @@ public class EvaluatorTest {
     public void testComplicated1() {
         eval.loadRegex("((ab)*|(c|d*))f");
         assertTrue(eval.evaluateString("f"));
-        eval.evaluateString("abf");
         assertTrue(eval.evaluateString("abf"));
         assertTrue(eval.evaluateString("cf"));
         assertTrue(eval.evaluateString("dddddddddf"));
@@ -64,6 +63,30 @@ public class EvaluatorTest {
         
         assertTrue(!eval.evaluateString("bf"));
         assertTrue(!eval.evaluateString("abababababaf"));
+        assertTrue(!eval.evaluateString("ccf"));
+        assertTrue(!eval.evaluateString(""));
+        assertTrue(!eval.evaluateString("dddddddd"));
+    }
+    
+    @Test
+    public void testWildCardSimple() {
+        eval.loadRegex(".");
+        assertTrue(eval.evaluateString("a"));
+        
+        assertTrue(!eval.evaluateString("ab"));
+    }
+    
+    @Test
+    public void testWildCardComplicated1() {
+        eval.loadRegex("((a.)*|(.|d*))f");
+        assertTrue(eval.evaluateString("f"));
+        assertTrue(eval.evaluateString("ajf"));
+        assertTrue(eval.evaluateString("hf"));
+        assertTrue(eval.evaluateString("dddddddddf"));
+        assertTrue(eval.evaluateString("abaeabaqaxabf"));
+        assertTrue(eval.evaluateString("bf"));
+        
+        assertTrue(!eval.evaluateString("aqabaeabacaf"));
         assertTrue(!eval.evaluateString("ccf"));
         assertTrue(!eval.evaluateString(""));
         assertTrue(!eval.evaluateString("dddddddd"));
