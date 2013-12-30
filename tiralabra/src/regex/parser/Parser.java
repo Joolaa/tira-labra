@@ -28,6 +28,14 @@ public class Parser {
             if(split[0].charAt(split[0].length() - 1) == '*') {
                 return new REstar(parseString
                         (split[0].substring(0, split[0].length() - 1)));
+            } else if(split[0].charAt(split[0].length() - 1) == '+') {
+                REsubexp tempexp = parseString(split[0]
+                        .substring(0, split[0].length() - 1));
+                return new REconcat(tempexp, new REstar(tempexp));
+            } else if(split[0].charAt(split[0].length() - 1) == '?') {
+                return new REunion(parseString
+                        (split[0].substring(0, split[0].length() - 1)),
+                        new REepsilon());
             } else if(split[0].charAt(0) == '.') {
                 return new REwildCard();
             } else {
@@ -60,7 +68,8 @@ public class Parser {
             arr[1] = splittee.substring(splitpoint);
         }
         
-        if(!arr[1].isEmpty() && arr[1].charAt(0) == '*') {
+        if(!arr[1].isEmpty() && (arr[1].charAt(0) == '*' ||
+                arr[1].charAt(0) == '+' || arr[1].charAt(0) == '?')) {
             String[] helper = splitRegex(arr[1]);
             
             arr[0] = arr[0] + helper[0];

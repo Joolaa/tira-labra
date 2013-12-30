@@ -91,4 +91,38 @@ public class EvaluatorTest {
         assertTrue(!eval.evaluateString(""));
         assertTrue(!eval.evaluateString("dddddddd"));
     }
+    
+    @Test
+    public void testComplicatedPlus1() {
+        eval.loadRegex("((ab)+|(c|d+))f");
+        assertTrue(eval.evaluateString("abf"));
+        assertTrue(eval.evaluateString("cf"));
+        assertTrue(eval.evaluateString("dddddddddf"));
+        assertTrue(eval.evaluateString("ababababababf"));
+        
+        assertTrue(!eval.evaluateString("bf"));
+        assertTrue(!eval.evaluateString("abababababaf"));
+        assertTrue(!eval.evaluateString("ccf"));
+        assertTrue(!eval.evaluateString(""));
+        assertTrue(!eval.evaluateString("dddddddd"));
+        assertTrue(!eval.evaluateString("f"));
+    }
+    
+    @Test
+    public void testComplicatedQuestionMark1() {
+        eval.loadRegex("((ab)?|(c|d?))f");
+        assertTrue(eval.evaluateString("f"));
+        assertTrue(eval.evaluateString("abf"));
+        assertTrue(eval.evaluateString("cf"));
+        assertTrue(eval.evaluateString("df"));
+        
+        assertTrue(!eval.evaluateString("bf"));
+        assertTrue(!eval.evaluateString("abababababaf"));
+        assertTrue(!eval.evaluateString("ccf"));
+        assertTrue(!eval.evaluateString(""));
+        assertTrue(!eval.evaluateString("dddddddd"));
+        assertTrue(!eval.evaluateString("dddddddddf"));
+        assertTrue(!eval.evaluateString("ababababababf"));
+
+    }
 }
