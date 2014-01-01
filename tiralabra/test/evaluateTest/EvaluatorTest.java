@@ -222,4 +222,11 @@ public class EvaluatorTest {
         
         assertTrue(!eval.evaluateString("+"));
     }
+    
+    public void testEmptySq() {
+        eval.loadRegex("[]a*");
+        
+        assertTrue(eval.evaluateString(""));
+        assertTrue(eval.evaluateString("aaaaaaaa"));
+    }
 }

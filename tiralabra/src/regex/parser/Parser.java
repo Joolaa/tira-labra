@@ -61,6 +61,9 @@ public class Parser {
         else
             s = st;
         
+        if(s.isEmpty())
+            return new REepsilon();
+        
         if(s.length() == 1) {
             return new REchar(s.charAt(0));
         }
