@@ -11,7 +11,7 @@ public class Parser {
      * consisting of REsubexps. Minimal effort to check whether
      * the given string is a valid regex.
      * 
-     * @param s string representation of regex
+     * @param st string representation of regex
      * @return parse tree of REsubexps
      */
     
