@@ -23,6 +23,12 @@ public class Evaluator {
         this.regexTree = null;
     }
     
+    /**
+     * Returns true if the parameter string matches
+     * the regex given to the object
+     * @param s string to be evaluated
+     * @return true if string matches, false otherwise
+     */
     public boolean evaluateString(String s) {
         
         REsubexp r = regexTree;
@@ -36,6 +42,10 @@ public class Evaluator {
         return r.matchesEmpty();
     }
     
+    /**
+     * Set a new regex for the object
+     * @param regexString The regex to be set
+     */
     public void loadRegex(String regexString) {
         this.regexString = regexString;
         this.regexTree = parser.parseString(regexString);
