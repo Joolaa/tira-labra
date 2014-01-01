@@ -27,6 +27,24 @@ public class EvaluatorTest {
     }
     
     @Test
+    public void testSimpleRegex2() {
+        eval.loadRegex("(abc)(def)");
+        assertTrue(eval.evaluateString("abcdef"));
+        assertTrue(!eval.evaluateString("abdef"));
+    }
+    
+    @Test
+    public void testSimpleSqBracket() {
+        eval.loadRegex("ab[cd]");
+        assertTrue(eval.evaluateString("abc"));
+        assertTrue(eval.evaluateString("abd"));
+        
+        assertTrue(!eval.evaluateString("ac"));
+        assertTrue(!eval.evaluateString("ad"));
+        assertTrue(!eval.evaluateString("abcd"));
+    }
+    
+    @Test
     public void testUnion() {
         eval.loadRegex("abc|abe|a");
         assertTrue(eval.evaluateString("abc"));
@@ -124,5 +142,84 @@ public class EvaluatorTest {
         assertTrue(!eval.evaluateString("dddddddddf"));
         assertTrue(!eval.evaluateString("ababababababf"));
 
+    }
+    
+    @Test
+    public void moreSqBracketTests1() {
+        eval.loadRegex("[c-f]");
+        
+        assertTrue(eval.evaluateString("c"));
+        assertTrue(eval.evaluateString("e"));
+        assertTrue(eval.evaluateString("f"));
+        
+    }
+    
+    @Test
+    public void moreSqBracketTests2() {
+        eval.loadRegex("[0-9][2-7][*][a-b]");
+        
+        assertTrue(eval.evaluateString("47*b"));
+        assertTrue(eval.evaluateString("92*a"));
+        assertTrue(eval.evaluateString("55*b"));
+    }
+    
+    @Test
+    public void testTrickySqBracket1() {
+        eval.loadRegex("[[]");
+        
+        assertTrue(eval.evaluateString("["));
+    }
+    
+    @Test
+    public void testTrickyBracket2() {
+        eval.loadRegex("[]]");
+        
+        assertTrue(eval.evaluateString("]"));
+    }
+    
+    @Test
+    public void testTrickyBracket3() {
+        eval.loadRegex("[[]]");
+        
+        assertTrue(eval.evaluateString("["));
+        assertTrue(eval.evaluateString("]"));
+    }
+    
+    @Test
+    public void testTrickyBracket4() {
+        eval.loadRegex("[]][[]");
+        
+        assertTrue(eval.evaluateString("]["));
+    }
+    
+    @Test
+    public void testTrickyBracket5() {
+        eval.loadRegex("[[][]]");
+        
+        assertTrue(eval.evaluateString("[]"));
+    }
+    
+    @Test
+    public void testTrickyBracket6() {
+        
+        eval.loadRegex("[[][[]][[][]]");
+        assertTrue(eval.evaluateString("[[[]"));
+        assertTrue(eval.evaluateString("[][]"));
+    }
+    
+    @Test
+    public void testEscaping() {
+        eval.loadRegex("[[a|b*(ce).]");
+        
+        assertTrue(eval.evaluateString("["));
+        assertTrue(eval.evaluateString("a"));
+        assertTrue(eval.evaluateString("|"));
+        assertTrue(eval.evaluateString("b"));
+        assertTrue(eval.evaluateString("*"));
+        assertTrue(eval.evaluateString("("));
+        assertTrue(eval.evaluateString(")"));
+        assertTrue(eval.evaluateString("."));
+        
+        assertTrue(!eval.evaluateString("+"));
     }
 }

@@ -1,3 +1,3 @@
 tira-labra
 ==========
-Work in progress.
+Säännöllisten lausekkeiden toteutus.

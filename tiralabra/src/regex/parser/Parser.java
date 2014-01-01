@@ -21,6 +21,8 @@ public class Parser {
         
         if(s.charAt(0) == '(' && s.charAt(s.length() - 1) == ')')
             s = removeParens(s);
+        if(checkSqBrackets(s))
+            return parseSqBracket(s);
         
         String[] split = splitRegex(s);
         
@@ -50,6 +52,38 @@ public class Parser {
                         parseString(split[1]));
             }
         }
+    }
+    
+    private REsubexp parseSqBracket(String st) {
+        String s;
+        if(st.charAt(0) == '[' && st.charAt(st.length() - 1) == ']')
+            s = st.substring(1, st.length() - 1);
+        else
+            s = st;
+        
+        if(s.length() == 1) {
+            return new REchar(s.charAt(0));
+        }
+        
+        if(s.charAt(1) == '-') {
+            if(s.charAt(0) > s.charAt(2))
+                throw new IllegalStateException();
+            else if(s.charAt(0) == s.charAt(2)) {
+                if(s.length() == 3)
+                    return new REchar(s.charAt(0));
+                return new REunion(new REchar(s.charAt(0)),
+                        parseSqBracket(s.substring(3)));
+            } else {
+                char fc = s.charAt(0);
+                fc++;
+                return new REunion(new REchar(s.charAt(0)),
+                        parseSqBracket((fc)
+                        + s.substring(1)));
+            }
+        }
+        
+        return new REunion(new REchar(s.charAt(0)),
+                parseSqBracket(s.substring(1, s.length())));
     }
     
     private String[] splitRegex(String splittee) {
@@ -110,13 +144,19 @@ public class Parser {
     
     private int indexOfTail(String s) {
         
+        if(s.isEmpty() || s.length() == 1)
+            return 0;
+        int sqbrackind;
+        if(s.charAt(0) == '[') {
+            sqbrackind = indexSqBracket(s);
+            if(sqbrackind != 0)
+                return sqbrackind;
+        }
+        
         int unionind = indexOfUnion(s);
         
-        if(s.isEmpty() || s.length() == 1) {
-            return 0;
-        } else if(unionind != 0) {
+        if(unionind != 0)
             return unionind;
-        }
         
         int parencount = 0;
         
@@ -148,6 +188,46 @@ public class Parser {
         }
         
         return 0;
+    }
+    
+    private int indexSqBracket(String s) {
+        
+        int location = 0;
+        
+        
+        for(int i = 0; i < s.length(); i++) {
+            
+            if(s.charAt(i) == '[' && location != 0) {
+                return location + 1;
+            } else if(s.charAt(i) == ']') {
+                
+                if(location == 0)
+                    location = i;
+                else
+                    return i + 1;
+            }
+        }
+        if(location != 0)
+            return location + 1;
+        
+        return 0;
+    }
+    
+    private boolean checkSqBrackets(String s) {
+        if(s.charAt(0) != '[' || s.charAt(s.length() - 1) != ']')
+            return false;
+        
+        boolean rightFound = false;
+        
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '[' && rightFound)
+                return false;
+            else if(s.charAt(i) == ']')
+                rightFound = true;
+        }
+        
+        
+        return true;
     }
     
 }
