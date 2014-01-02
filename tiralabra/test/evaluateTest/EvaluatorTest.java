@@ -223,10 +223,22 @@ public class EvaluatorTest {
         assertTrue(!eval.evaluateString("+"));
     }
     
+    @Test
     public void testEmptySq() {
         eval.loadRegex("[]a*");
         
         assertTrue(eval.evaluateString(""));
         assertTrue(eval.evaluateString("aaaaaaaa"));
     }
+    
+    @Test
+    public void testComplicated2() {
+        eval.loadRegex("(a?|bc+d*)[rx-z].+[p-q]");
+        
+        assertTrue(eval.evaluateString("rsp"));
+        assertTrue(eval.evaluateString("bccdddyalkdfsjlfdsakjq"));
+        
+        assertTrue(!eval.evaluateString("aazoip"));
+    }
+    
 }

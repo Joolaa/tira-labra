@@ -233,4 +233,22 @@ public class Parser {
         return true;
     }
     
+    private String[] moveCurlies(String[] ss) {
+        
+        int indcurly = 0;
+        
+        for(int i = 0; i < ss[1].length(); i++) {
+            if(ss[1].charAt(i) == '}') {
+                indcurly = i;
+                break;
+            }
+        }
+        
+        if(indcurly >= ss[1].length() - 1)
+            return new String[]{ss[0] + ss[1], ""};
+        
+        return new String[]{ss[0] + ss[1].substring(0, indcurly + 1),
+            ss[1].substring(indcurly + 1)};
+    }
+    
 }
