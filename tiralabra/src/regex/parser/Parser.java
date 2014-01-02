@@ -64,11 +64,15 @@ public class Parser {
             }
         } else {
             if(split[1].charAt(0) == '|') {
+                
                 return new REunion(parseString(split[0]), 
                         parseString(splitRegex(split[1])[1]));
+                
             } else {
+                
                 return new REconcat(parseString(split[0]), 
                         parseString(split[1]));
+                
             }
         }
     }
