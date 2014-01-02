@@ -28,20 +28,39 @@ public class Parser {
         
         if(split[1].isEmpty()) {
             if(split[0].charAt(split[0].length() - 1) == '*') {
+                
                 return new REstar(parseString
                         (split[0].substring(0, split[0].length() - 1)));
+                
             } else if(split[0].charAt(split[0].length() - 1) == '+') {
+                
                 REsubexp tempexp = parseString(split[0]
                         .substring(0, split[0].length() - 1));
                 return new REconcat(tempexp, new REstar(tempexp));
+                
             } else if(split[0].charAt(split[0].length() - 1) == '?') {
+                
                 return new REunion(parseString
                         (split[0].substring(0, split[0].length() - 1)),
-                        new REepsilon());
+                        new REepsilon());   
+                
+            } else if(split[0].charAt(split[0].length() - 1) == '}') {
+                
+                String[] helper = splitCurlies(split[0]);
+                int[] curlyreading = readCurlies(helper[1]);
+                REsubexp expression = parseString(helper[0]);
+                
+                return handleCurlies(expression,
+                        curlyreading[0], curlyreading[1]);
+                
             } else if(split[0].charAt(0) == '.') {
-                return new REwildCard();
+                
+                return new REwildCard();  
+                
             } else {
+                
                 return new REchar(split[0].charAt(0));
+                
             }
         } else {
             if(split[1].charAt(0) == '|') {
@@ -111,6 +130,8 @@ public class Parser {
             
             arr[0] = arr[0] + helper[0];
             arr[1] = helper[1];
+        } else if(!arr[1].isEmpty() && arr[1].charAt(0) == '{') {
+            arr = moveCurlies(arr);
         }
         
         return arr;
@@ -251,4 +272,70 @@ public class Parser {
             ss[1].substring(indcurly + 1)};
     }
     
+    private String[] splitCurlies(String s) {
+        
+        int indcurly = 0;
+        
+        for(int i = s.length() - 1; i >= 0; i--) {
+            
+            if(s.charAt(i) == '{') {
+                indcurly = i;
+                break;
+            }
+        }
+        
+        return new String[]{s.substring(0, indcurly), s.substring(indcurly)};
+    }
+    
+    private int[] readCurlies(String curlies) {
+        
+        if(curlies.charAt(0) == '{' &&
+                curlies.charAt(curlies.length() - 1) == '}') {
+            return readCurlies(curlies.substring(1, curlies.length() - 1));
+        }
+        
+        int[] result = new int[]{-1, -1};
+        String temp = "";
+        
+        for(int i = 0; i < curlies.length(); i++) {
+            if(Character.isDigit(curlies.charAt(i))) {
+                temp += curlies.charAt(i);
+            } else if(curlies.charAt(i) == '-') {
+                result[0] = Integer.parseInt(temp);
+                temp = "";
+            }
+        }
+        
+        result[1] = Integer.parseInt(temp);
+        
+        if(result[0] == -1)
+            result[0] = result[1];
+        
+        return result;
+    }
+    
+    private REsubexp handleCurlies(REsubexp se, int low, int high) {
+        
+        if (low > high) {
+            throw new IllegalStateException();
+        } else if (low == high) {
+            return numeratedConcats(se, low);
+        } else {
+            return new REunion(numeratedConcats(se, low),
+                    handleCurlies(se, low + 1, high));
+        }
+        
+    } 
+    
+    private REsubexp numeratedConcats(REsubexp se, int times) {
+        
+        if(times == 0)
+            return new REepsilon();
+        else if(times == 1)
+            return se;
+        else if(times < 0)
+            throw new IllegalStateException();
+        else
+            return new REconcat(se, numeratedConcats(se, times - 1));
+    }
 }

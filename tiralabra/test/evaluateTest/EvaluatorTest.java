@@ -241,4 +241,38 @@ public class EvaluatorTest {
         assertTrue(!eval.evaluateString("aazoip"));
     }
     
+    @Test
+    public void testCurliesSimple1() {
+        eval.loadRegex("a{2}");
+        
+        assertTrue(eval.evaluateString("aa"));
+        
+        assertTrue(!eval.evaluateString("a"));
+    }
+    
+    @Test
+    public void testCurliesSimple2() {
+        eval.loadRegex("(ab){4-10}");
+        
+        assertTrue(eval.evaluateString("ababababab"));
+        assertTrue(eval.evaluateString("abababababababababab"));
+        assertTrue(eval.evaluateString("abababab"));
+        
+        assertTrue(!eval.evaluateString("ababab"));
+        assertTrue(!eval.evaluateString("abababa"));
+    }
+    
+    @Test
+    public void testCurliesComplicated1() {
+        eval.loadRegex("([ab]{0-2})[{}]{0-3}");
+        
+        assertTrue(eval.evaluateString("ba{{{"));
+        assertTrue(eval.evaluateString("}"));
+        assertTrue(eval.evaluateString(""));
+        
+        assertTrue(!eval.evaluateString("aba"));
+        assertTrue(!eval.evaluateString("}}}}"));
+        assertTrue(!eval.evaluateString("aba{}"));
+    }
+    
 }
