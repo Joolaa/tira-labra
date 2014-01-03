@@ -17,6 +17,9 @@ public class Parser {
     
     public REsubexp parseString(String st) {
         
+        if(st == null)
+            return null;
+        
         String s = st;
         
         if(s.charAt(0) == '(' && s.charAt(s.length() - 1) == ')')

@@ -4,23 +4,29 @@ package regex.evaluate;
 import regex.*;
 import regex.regexparts.*;
 import regex.parser.*;
+import regex.validator.Validator;
 
 public class Evaluator {
     
     private String regexString;
     private Parser parser;
     private REsubexp regexTree;
+    private Validator validator;
     
-    public Evaluator(String regexString, Parser parser) {
+    
+    public Evaluator(String regexString, Parser parser, Validator validator) {
         this.regexString = regexString;
         this.parser = parser;
         this.regexTree = this.parser.parseString(this.regexString);
+        this.validator = validator;
+    }
+    
+    public Evaluator(String regexString, Parser parser) {
+        this(regexString, parser, new Validator(regexString));
     }
     
     public Evaluator(Parser parser) {
-        this.parser = parser;
-        this.regexString = null;
-        this.regexTree = null;
+        this(null, parser, new Validator());
     }
     
     /**
@@ -30,6 +36,7 @@ public class Evaluator {
      * @return true if string matches, false otherwise
      */
     public boolean evaluateString(String s) {
+        
         
         REsubexp r = regexTree;
         
@@ -49,6 +56,13 @@ public class Evaluator {
     public void loadRegex(String regexString) {
         this.regexString = regexString;
         this.regexTree = parser.parseString(regexString);
+        
+        if(validator != null) {
+            validator.setRegex(regexString);
+            
+            if(!validator.validate())
+                throw new IllegalArgumentException("Regex syntax error");
+        }
     }
     
 }
