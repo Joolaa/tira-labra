@@ -29,6 +29,10 @@ public class Evaluator {
         this(null, parser, new Validator());
     }
     
+    public Evaluator() {
+        this(new Parser());
+    }
+    
     /**
      * Returns true if the parameter string matches
      * the regex given to the object
