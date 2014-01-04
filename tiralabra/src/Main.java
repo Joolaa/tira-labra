@@ -4,6 +4,18 @@ import java.util.Scanner;
 
 public class Main {
     
+    /*
+     * Command line parameters:
+     * 
+     * -f <regex> <srcfile>, from file mode, read input from file
+     * 
+     * -i <regex>, interactive mode, match strings line by line form stdin,
+     * cannot be enabled simultaneously with from file mode. :q quits
+     * 
+     * -g <regex> <srcfile>, grep mode, read lines from the file and
+     * print lines which match the regex to stdout
+     */
+    
     public static void main(String args[]) {
         
         FileReader file;
@@ -14,6 +26,7 @@ public class Main {
         boolean readFile = false;
         boolean interactive = false;
         boolean expanded = false;
+        boolean grep = false;
         
         Evaluator eval = new Evaluator();
         
@@ -31,8 +44,8 @@ public class Main {
                         readFile = true;
                     case 'i':
                         interactive = true;
-                    case 'e':
-                        expanded = true;
+                    case 'g':
+                        grep = true;
                 }
             }
             
@@ -47,21 +60,10 @@ public class Main {
             return;
         }
         
-        if(expanded) {
-            
-            if(regex.charAt(0) != '^') {
-                regex = ".*(" + regex + ")";
-            } else {
-                regex = regex.substring(1);
-            }
-            if(regex.charAt(regex.length() - 1) != '$') {
-                regex = "(" + regex + ").*";
-            } else {
-                regex = regex.substring(0, regex.length() - 1);
-            }
-        }
         
-        if(readFile) {
+        eval.loadRegex(regex);
+        
+        if(readFile || grep) {
             
             try {
                 file = new FileReader(args[args.length - 1]);
@@ -72,7 +74,24 @@ public class Main {
             
             scanner = new Scanner(file);
             
-            input = scanner.toString();
+            if(readFile) {
+                input = scanner.toString();
+
+                System.out.println(eval.evaluateString(input));
+
+                return;
+                
+            } else if(grep) {
+                
+                while(scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    
+                    if(eval.evaluateString(line))
+                        System.out.println(line);
+                }
+                
+                return;
+            }
             
         } else if(interactive) {
             

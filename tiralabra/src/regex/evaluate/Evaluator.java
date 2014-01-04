@@ -44,6 +44,10 @@ public class Evaluator {
         
         REsubexp r = regexTree;
         
+        if(s == null) {
+            return false;
+        }
+        
         if(!s.isEmpty()) {
             for(int i = 0; i < s.length(); i++) {
                 r = r.derivative(s.charAt(i));
