@@ -42,10 +42,13 @@ public class Main {
                     
                     case 'f':
                         readFile = true;
+                        break;
                     case 'i':
                         interactive = true;
+                        break;
                     case 'g':
                         grep = true;
+                        break;
                 }
             }
             
@@ -75,7 +78,9 @@ public class Main {
             scanner = new Scanner(file);
             
             if(readFile) {
-                input = scanner.toString();
+                scanner.useDelimiter("\\Z");
+                
+                input = scanner.next();
 
                 System.out.println(eval.evaluateString(input));
 
