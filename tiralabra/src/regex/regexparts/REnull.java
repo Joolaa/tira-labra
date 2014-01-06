@@ -24,4 +24,19 @@ public class REnull implements REsubexpAtom{
     public REsubexp derivative(char c) {
         return new REnull();
     }
+    
+    @Override
+    public boolean matchesSome() {
+        return false;
+    }
+    
+    @Override
+    public REsubexp reduce() {
+        return this;
+    }
+    
+    @Override
+    public int height() {
+        return 1;
+    }
 }

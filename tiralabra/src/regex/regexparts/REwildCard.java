@@ -24,4 +24,19 @@ public class REwildCard implements REsubexpAtom {
         return new REepsilon();
     }
     
+    @Override
+    public boolean matchesSome() {
+        return true;
+    }
+    
+    @Override
+    public REsubexp reduce() {
+        return this;
+    }
+    
+    @Override
+    public int height() {
+        return 1;
+    }
+    
 }

@@ -27,4 +27,25 @@ public class REstar implements REsubexp{
         return new REconcat(getLeft().derivative(c), this);
     }
     
+    @Override
+    public boolean matchesSome() {
+        return true;
+    }
+    
+    @Override
+    public REsubexp reduce() {
+        
+        REsubexp reducedLeft = getLeft().reduce();
+        
+        if(!reducedLeft.matchesSome())
+            return new REepsilon();
+        
+        return new REstar(reducedLeft);
+    }
+    
+    @Override
+    public int height() {
+        return getLeft().height() + 1;
+    }
+    
 }

@@ -44,13 +44,23 @@ public class Evaluator {
         
         REsubexp r = regexTree;
         
+        boolean reduceTree = false;
+        
         if(s == null) {
             return false;
+        }
+        
+        if(s.length() > r.height()) {
+            reduceTree = true;
         }
         
         if(!s.isEmpty()) {
             for(int i = 0; i < s.length(); i++) {
                 r = r.derivative(s.charAt(i));
+                
+                if(reduceTree) {
+                    r = r.reduce();
+                }
             }
         }
         

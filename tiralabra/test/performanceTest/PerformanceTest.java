@@ -54,8 +54,8 @@ public class PerformanceTest {
         
         System.out.println("Size 10: " + elapsed);
         
-        //7 000 000 ns == 7000 mcrs == 7 ms
-        assertTrue(elapsed < 7000000);
+        //250 000 ns == 0.25 ms
+        assertTrue(elapsed < 250000);
         assertTrue(res);
         
         
@@ -78,8 +78,8 @@ public class PerformanceTest {
         
         System.out.println("Size 100: " + elapsed);
         
-        //70 ms
-        assertTrue(elapsed < 70000000);
+        //30 000 000 ns == 30 ms
+        assertTrue(elapsed < 30000000);
 
         
         
@@ -102,8 +102,8 @@ public class PerformanceTest {
         
         System.out.println("size 1000: " + elapsed);
         
-        //700ms
-        assertTrue(elapsed < 700000000);
+        //60 000 000 ns = 70 ms
+        assertTrue(elapsed < 70000000);
         
         //java stdlib regexes:
         
@@ -136,7 +136,8 @@ public class PerformanceTest {
         
         System.out.println("size 10000: " + elapsed);
         
-        long max = 700000000 * 100;
+        //80 000 000 ns == 60 ms
+        assertTrue(elapsed < 60000000);
         
         //Java stdlib regexes:
         starttime = System.nanoTime();
@@ -147,12 +148,6 @@ public class PerformanceTest {
         elapsed = endtime - starttime;
         
         System.out.println("Java size 10000: " + elapsed);
-        
-        
-        //7000ms
-        assertTrue(elapsed < max);
-        
-        
     }
     
 }

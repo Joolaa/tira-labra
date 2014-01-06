@@ -35,4 +35,19 @@ public class REchar implements REsubexpAtom {
         return new REnull();
     }
     
+    @Override
+    public boolean matchesSome() {
+        return true;
+    }
+    
+    @Override
+    public REsubexp reduce() {
+        return this;
+    }
+    
+    @Override
+    public int height() {
+        return 1;
+    }
+    
 }
