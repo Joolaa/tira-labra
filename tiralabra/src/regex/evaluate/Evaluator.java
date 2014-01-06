@@ -50,7 +50,7 @@ public class Evaluator {
             return false;
         }
         
-        if(s.length() > r.height()) {
+        if(s.length() * 2 > r.height()) {
             reduceTree = true;
         }
         

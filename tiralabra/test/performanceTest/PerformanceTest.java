@@ -29,7 +29,8 @@ public class PerformanceTest {
             
             char chnew = 'A';
             
-            chnew += ran.nextInt(amount - 1);
+            if(amount > 1)
+                chnew += ran.nextInt(amount - 1);
             
             result += chnew;
         }
@@ -148,6 +149,32 @@ public class PerformanceTest {
         elapsed = endtime - starttime;
         
         System.out.println("Java size 10000: " + elapsed);
+    }
+    
+    @Test
+    public void testGrowingExpression() {
+        
+        for(int i = 1; i < 100; i++) {
+            
+            String input = generateInput(i, 1);
+            
+            String regex = "A?{" + i + "}A{" + i + "}";
+            
+            long starttime = System.nanoTime();
+            
+            eval.loadRegex(regex);
+            
+            eval.evaluateString(input);
+            
+            long endtime = System.nanoTime();
+            
+            long elapsed = endtime - starttime;
+            
+            System.out.println("Growing size" + i + ": " + elapsed);
+            
+            // 20 ms * i^2 + 0.2 ms
+            assertTrue(elapsed < 20000000 * i * i + 2000000);
+        }
     }
     
 }

@@ -82,6 +82,10 @@ public class Validator {
         return true;
     }
     
+    /**
+     * Set the regex to validate
+     * @param re regex to validate in String form
+     */
     public void setRegex(String re) {
         this.regex = re;
     }
