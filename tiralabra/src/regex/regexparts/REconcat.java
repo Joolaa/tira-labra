@@ -47,10 +47,11 @@ public class REconcat implements REsubexpBinary {
     public REsubexp reduce() {
         
         REsubexp reducedLeft = getLeft().reduce();
-        REsubexp reducedRight = getRight().reduce();
         
-        if(!reducedLeft.matchesSome() || !reducedRight.matchesSome())
+        if(!reducedLeft.matchesSome())
             return new REnull();
+        
+        REsubexp reducedRight = getRight().reduce();
         
         return new REconcat(reducedLeft, reducedRight);
     }

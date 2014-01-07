@@ -41,6 +41,8 @@ public class PerformanceTest {
     @Test
     public void testSize10() {
         
+        dummyCalculation();
+        
         String input = generateInput(10, 4);
         
         long starttime = System.nanoTime();
@@ -65,6 +67,8 @@ public class PerformanceTest {
     @Test
     public void testSize100() {
         
+        dummyCalculation();
+        
         String input = generateInput(100, 4);
         
         long starttime = System.nanoTime();
@@ -88,6 +92,8 @@ public class PerformanceTest {
     
     @Test
     public void testSize1000() {
+        
+        dummyCalculation();
         
         String input = generateInput(1000, 4);
         
@@ -123,6 +129,8 @@ public class PerformanceTest {
     @Test
     public void testSize10000() {
         
+        dummyCalculation();
+        
         String input = generateInput(10000, 4);
         
         long starttime = System.nanoTime();
@@ -154,7 +162,9 @@ public class PerformanceTest {
     @Test
     public void testGrowingExpression() {
         
-        for(int i = 1; i < 100; i++) {
+        dummyCalculation();
+        
+        for(int i = 1; i < 25; i++) {
             
             String input = generateInput(i, 1);
             
@@ -170,11 +180,24 @@ public class PerformanceTest {
             
             long elapsed = endtime - starttime;
             
-            System.out.println("Growing size" + i + ": " + elapsed);
+            System.out.println("Growing size" + i +
+                    ": " + elapsed / 1000 + "mcrs");
             
             // 20 ms * i^2 + 0.2 ms
-            assertTrue(elapsed < 20000000 * i * i + 2000000);
+            assertTrue(elapsed / 1000 < 10000 * i * i + 2000000);
         }
+    }
+    
+    public void dummyCalculation() {
+        
+        String input = generateInput(1, 1);
+            
+        String regex = "A?{" + 1 + "}A{" + 1 + "}";
+        
+        eval.loadRegex(regex);
+            
+        eval.evaluateString(input);
+        
     }
     
 }
