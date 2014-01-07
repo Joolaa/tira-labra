@@ -43,16 +43,16 @@ public class REunion implements REsubexpBinary{
     public REsubexp reduce() {
         
         REsubexp reducedLeft = getLeft().reduce();
+        
+        if(!reducedLeft.matchesSome())
+            return getRight().reduce();
+        
         REsubexp reducedRight = getRight().reduce();
         
-        if(!reducedLeft.matchesSome() && !reducedRight.matchesSome())
-            return new REnull();
-        else if(!reducedLeft.matchesSome())
-            return reducedRight;
-        else if(!reducedRight.matchesSome())
+        if(!reducedRight.matchesSome())
             return reducedLeft;
-        else
-            return new REunion(reducedLeft, reducedRight);
+        
+        return new REunion(reducedLeft, reducedRight);
     }
     
     @Override
