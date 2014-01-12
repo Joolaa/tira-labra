@@ -115,6 +115,7 @@ public class Parser {
                 parseSqBracket(s.substring(1, s.length())));
     }
     
+    //split regex into two parts for parsing
     private String[] splitRegex(String splittee) {
 
         String[] arr = new String[2];
@@ -173,6 +174,7 @@ public class Parser {
             
     }
     
+    //tells where to split the string
     private int indexOfTail(String s) {
         
         if(s.isEmpty() || s.length() == 1)
@@ -261,6 +263,8 @@ public class Parser {
         return true;
     }
     
+    //move the part where the curly brackets are to
+    //the end of the first string
     private String[] moveCurlies(String[] ss) {
         
         int indcurly = 0;

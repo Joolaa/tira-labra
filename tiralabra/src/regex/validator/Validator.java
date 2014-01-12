@@ -5,6 +5,10 @@ public class Validator {
     private String regex;
     private CharStack stack;
     
+    /**
+     * 
+     * @param regex String representation of a regex
+     */
     public Validator(String regex) {
         this.regex = regex;
         this.stack = new CharStack();

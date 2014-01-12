@@ -14,6 +14,12 @@ public class Evaluator {
     private Validator validator;
     
     
+    /**
+     * 
+     * @param regexString String representation of regex
+     * @param parser parser object to parse with
+     * @param validator validator object to validate with
+     */
     public Evaluator(String regexString, Parser parser, Validator validator) {
         this.regexString = regexString;
         this.parser = parser;
