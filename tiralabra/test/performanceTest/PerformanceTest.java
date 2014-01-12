@@ -216,12 +216,9 @@ public class PerformanceTest {
             
             long starttime = System.nanoTime();
             
-            /*
             eval.loadRegex(regex);
             
             boolean result = eval.evaluateString(input);
-            */
-            boolean result = input.matches(regex);
             
             long endtime = System.nanoTime();
             
@@ -230,7 +227,7 @@ public class PerformanceTest {
             System.out.println("Growing size " + i +
                     ": " + elapsed / 1000 + "mcrs");
             
-            //assertTrue(elapsed / 1000 < 10000 * i * i + 2000000);
+            assertTrue(elapsed / 1000 < 60000000);
             assertTrue(result);
         }
     }
